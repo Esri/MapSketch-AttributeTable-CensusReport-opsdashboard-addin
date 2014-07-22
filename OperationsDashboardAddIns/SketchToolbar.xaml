@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="OperationsDashboardAddIns.SketchToolbar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:colorPkr="clr-namespace:OperationsDashboardAddIns.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:opsDash="clr-namespace:ESRI.ArcGIS.OperationsDashboard;assembly=ESRI.ArcGIS.OperationsDashboard"
+             xmlns:sketch="clr-namespace:OperationsDashboardAddIns"
+             d:DesignHeight="32"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+  <UserControl.Resources>
+    <sketch:LineWidthToBoolConverter x:Key="LineWidthToBoolConverter" />
+  </UserControl.Resources>
+  <Grid HorizontalAlignment="Stretch">
+    <Border MinHeight="32"
+            HorizontalAlignment="Stretch"
+            Background="{DynamicResource ApplicationBackgroundBrush}"
+            BorderBrush="LightGray"
+            BorderThickness="0,0,1,0"
+            Padding="5,0,5,0">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <WrapPanel Grid.Column="0"
+                   VerticalAlignment="Center"
+                   Orientation="Horizontal">
+          <ToggleButton x:Name="btnChooseColor"
+                        Margin="2,0,10,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Background="{Binding SelectedColor,
+                                             Converter={sketch:ColorToBrushConverter},
+                                             Mode=OneWay}"
+                        IsChecked="{Binding ChooseColorIsChecked}"
+                        Style="{StaticResource ToolbarToggleButtonStyle}"
+                        ToolTip="Pick a color for the sketch line">
+            <Image Source="/OperationsDashboardAddIns;component/Images/ColorPicker.png" Stretch="None" />
+          </ToggleButton>
+          <Popup x:Name="colorPickerPopup"
+                 IsHitTestVisible="False"
+                 IsOpen="{Binding IsChecked,
+                                  ElementName=btnChooseColor}"
+                 Placement="Bottom"
+                 PlacementTarget="{Binding ElementName=btnChooseColor}"
+                 StaysOpen="False">
+            <Border MaxWidth="400"
+                    MaxHeight="60"
+                    Background="{DynamicResource ApplicationBackgroundBrush}"
+                    BorderThickness="1">
+              <colorPkr:ColorPicker x:Name="colorPicker"
+                                    HorizontalAlignment="Center"
+                                    Color="{Binding SelectedColor,
+                                                    Mode=TwoWay}" />
+            </Border>
+          </Popup>
+
+          <ToggleButton Margin="0,0,2,0"
+                        IsChecked="{Binding SelectedLineWidth,
+                                            Converter={sketch:LineWidthToBoolConverter},
+                                            ConverterParameter={x:Static sketch:LineWidth.Thin},
+                                            Mode=TwoWay}"
+                        Style="{StaticResource ToolbarToggleButtonStyle}"
+                        ToolTip="Sketch on map with a 2-pixel line">
+            <Image Source="/OperationsDashboardAddIns;component/Images/LineWidth2px.png" Stretch="None" />
+          </ToggleButton>
+
+          <ToggleButton Margin="0,0,2,0"
+                        IsChecked="{Binding SelectedLineWidth,
+                                            Converter={sketch:LineWidthToBoolConverter},
+                                            ConverterParameter={x:Static sketch:LineWidth.Medium},
+                                            Mode=TwoWay}"
+                        Style="{StaticResource ToolbarToggleButtonStyle}"
+                        ToolTip="Sketch on map with a 4-pixel line">
+            <Image Source="/OperationsDashboardAddIns;component/Images/LineWidth4px.png" Stretch="None" />
+          </ToggleButton>
+
+          <ToggleButton Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        IsChecked="{Binding SelectedLineWidth,
+                                            Converter={sketch:LineWidthToBoolConverter},
+                                            ConverterParameter={x:Static sketch:LineWidth.Thick},
+                                            Mode=TwoWay}"
+                        Style="{StaticResource ToolbarToggleButtonStyle}"
+                        ToolTip="Sketch on map with a 6-pixel line">
+            <Image Source="/OperationsDashboardAddIns;component/Images/LineWidth6px.png" Stretch="None" />
+          </ToggleButton>
+        </WrapPanel>
+
+        <WrapPanel Grid.Column="2" Margin="2">
+          <Button Margin="0,0,3,0"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  Click="SaveSketch_Click"
+                  ToolTip="Save map image">
+            <Image Source="/OperationsDashboardAddIns;component/Images/SaveSketch.png" Stretch="None" />
+          </Button>
+
+          <Button Margin="3,0,2,0"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  Click="MailSketch_Click"
+                  ToolTip="Email map image">
+            <Image Source="/OperationsDashboardAddIns;component/Images/MailSketch.png" Stretch="None" />
+          </Button>
+
+          <Button Margin="20, 0,10,0"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  Click="DiscardSketch_Click"
+                  ToolTip="Discard sketch">
+            <Image Source="/OperationsDashboardAddIns;component/Images/DiscardSketch.png" Stretch="None" />
+          </Button>
+
+          <Button x:Name="DoneButton"
+                  Height="25"
+                  MinWidth="65"
+                  VerticalAlignment="Center"
+                  Click="DoneButton_Click"
+                  Content="Done"
+                  Style="{StaticResource ToolbarCancelButtonStyle}" />
+        </WrapPanel>
+
+      </Grid>
+
+      <Border.Effect>
+        <DropShadowEffect BlurRadius="3"
+                          Direction="270"
+                          ShadowDepth="3"
+                          Color="LightGray" />
+      </Border.Effect>
+    </Border>
+
+  </Grid>
+</UserControl>
