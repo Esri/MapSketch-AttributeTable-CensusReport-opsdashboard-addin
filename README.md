@@ -3,7 +3,7 @@ MapSketch-CensusReport-AttributeTable-opsdashboard-addin
 
 An Operations Dashboard addin with a sketch map tool, a census report feature action, and an attribute table widget
 
-![Using the Addin in Operations Dashboard](https://github.com/ArcGIS/MapSketch-AttributeTable-CensusReport-opsdashboard-addin/blob/master/ScreenShot.png)
+![Using the Addin in Operations Dashboard](https://github.com/esri/MapSketch-AttributeTable-CensusReport-opsdashboard-addin/blob/master/ScreenShot.png)
 
 ## Features
  
